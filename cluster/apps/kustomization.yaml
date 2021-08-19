@@ -7,3 +7,4 @@ resources:
   - system-upgrade
   - monitoring
   - home-assistant
+  - media
