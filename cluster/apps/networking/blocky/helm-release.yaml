@@ -77,6 +77,7 @@ spec:
         mapping:
           ${SECRET_DOMAIN}: 10.0.60.100
           plex.${SECRET_DOMAIN}: 10.0.10.13
+          dsm.${SECRET_DOMAIN}: 10.0.10.13
       blocking:
         blackLists:
           ads:
