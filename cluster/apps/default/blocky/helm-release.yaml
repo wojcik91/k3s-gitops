@@ -22,8 +22,7 @@ spec:
       tag: v0.15
     controller:
       replicas: 2
-      strategy:
-        type: RollingUpdate
+      strategy: RollingUpdate
     env:
       TZ: "Europe/Warsaw"
     service:
