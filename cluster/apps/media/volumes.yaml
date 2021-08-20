@@ -56,3 +56,32 @@ spec:
   resources:
     requests:
       storage: 1Mi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-media-movies-pv
+  namespace: media
+spec:
+  storageClassName: media-movies
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.0.10.13
+    path: "/volume2/Data/Movies"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-media-movies-pvc
+  namespace: media
+spec:
+  storageClassName: media-movies
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
