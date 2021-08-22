@@ -8,3 +8,4 @@ resources:
   - monitoring
   - home-assistant
   - media
+  - vpn-gateway

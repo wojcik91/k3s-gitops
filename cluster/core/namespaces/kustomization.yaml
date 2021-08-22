@@ -7,3 +7,4 @@ resources:
   - monitoring.yaml
   - home-assistant.yaml
   - media.yaml
+  - vpn-gateway.yaml
