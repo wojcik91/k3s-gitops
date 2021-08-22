@@ -1,0 +1,103 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: qbittorrent
+      version: 12.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/qbittorrent
+      tag: v4.3.7
+    env:
+      TZ: "Europe/Warsaw"
+      WAIT_FOR_VPN: "true"
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+        hosts:
+          - host: "qbittorrent.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "qbittorrent.${SECRET_DOMAIN}"
+    podSecurityContext:
+      fsGroup: 65537
+    persistence:
+      config:
+        enabled: true
+        existingClaim: qbittorrent-config-v1
+      downloads:
+        enabled: true
+        existingClaim: nfs-media-downloads-pvc
+        mountPath: /downloads
+      shared:
+        enabled: true
+        type: emptyDir
+        mountPath: /shared
+    prometheus:
+      podMonitor:
+        enabled: true
+        interval: 10m
+        scrapeTimeout: 2m
+    addons:
+      vpn:
+        enabled: true
+        # This Should be set to `wireguard`. This will set the add-on to use the default settings for Wireguard based connections.
+        type: wireguard
+
+        # If the podSecurityContext is set to run as a different user, make sure to run the Wireguard container as UID/GID 568.
+        # This is required for it to be able to read certain configuration files.
+        securityContext:
+          runAsUser: 568
+          runAsGroup: 568
+
+        env:
+          # Enable a killswitch that kills all trafic when the VPN is not connected
+          KILLSWITCH: "true"
+
+        # The wireguard configuration file provided by your VPN provider goes here.
+        #
+        # Set AllowedIPs to 0.0.0.0/0 to route all traffic through the VPN.
+        #
+        # Pay close attention to the PostUp and PreDown lines. They must be added if you wish to run a script when the connection
+        # is opened / closed.
+        configFile: |-
+          [Interface]
+          PrivateKey = ${WG_PRIVATE_KEY}
+          Address = ${WG_INTERFACE_IP}
+          DNS = ${WG_DNS}
+          PostUp = /config/up.sh %i
+          PreDown = /config/down.sh %i
+
+          [Peer]
+          PublicKey = ${WG_PEER_PUBLIC_KEY}
+          AllowedIPs = 0.0.0.0/0
+          Endpoint = ${WG_PEER_ENDPOINT}
+
+        # The scripts that get run when the VPN connection opens/closes are defined here.
+        # The default scripts will write a string to represent the current connection state to a file.
+        # Our qBittorrent image has a feature that can wait for this file to contain the word 'connected' before actually starting the application.
+        scripts:
+          up: |-
+            #!/bin/bash
+            echo "connected" > /shared/vpnstatus
+
+          down: |-
+            #!/bin/bash
+            echo "disconnected" > /shared/vpnstatus
