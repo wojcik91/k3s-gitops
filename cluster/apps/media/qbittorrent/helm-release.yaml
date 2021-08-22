@@ -5,6 +5,9 @@ metadata:
   name: qbittorrent
   namespace: media
 spec:
+  dependsOn:
+    - name: vpn-gateway
+      namespace: vpn
   interval: 5m
   chart:
     spec:
@@ -22,7 +25,7 @@ spec:
       tag: v4.3.7
     env:
       TZ: "Europe/Warsaw"
-      WAIT_FOR_VPN: "true"
+    hostname: qbittorrent
     ingress:
       main:
         enabled: true
