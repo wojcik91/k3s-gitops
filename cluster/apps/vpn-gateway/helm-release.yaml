@@ -62,22 +62,7 @@ spec:
           IPTABLES_BACKEND: nft
           KILLSWITCH: "false"
 
-        # The wireguard configuration file provided by your VPN provider goes here.
-        #
-        # Set AllowedIPs to 0.0.0.0/0 to route all traffic through the VPN.
-        #
-        # Pay close attention to the PostUp and PreDown lines. They must be added if you wish to run a script when the connection
-        # is opened / closed.
-        configFile: |-
-          [Interface]
-          PrivateKey = ${WG_PRIVATE_KEY}
-          Address = ${WG_INTERFACE_IP}
-          DNS = ${WG_DNS}
-
-          [Peer]
-          PublicKey = ${WG_PEER_PUBLIC_KEY}
-          AllowedIPs = 0.0.0.0/0
-          Endpoint = ${WG_PEER_ENDPOINT}
+        configFileSecret: vpn-config
 
         livenessProbe:
           exec:
