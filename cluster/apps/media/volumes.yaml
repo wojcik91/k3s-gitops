@@ -85,3 +85,32 @@ spec:
   resources:
     requests:
       storage: 1Mi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-media-books-pv
+  namespace: media
+spec:
+  storageClassName: media-books
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.0.10.13
+    path: "/volume2/Data/Books"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-media-books-pvc
+  namespace: media
+spec:
+  storageClassName: media-books
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi

@@ -2,15 +2,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: readarr
+  name: calibre
   namespace: media
 spec:
   interval: 5m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: readarr
-      version: 6.0.0
+      chart: calibre
+      version: 5.0.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -18,37 +18,35 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/k8s-at-home/readarr
-      tag: v0.1.0.944
+      repository: ghcr.io/linuxserver/calibre
+      tag: version-v5.25.0
     env:
       TZ: "Europe/Warsaw"
+      PGID: 65537
+      PUID: 1034
     ingress:
       main:
         enabled: true
         annotations:
           kubernetes.io/ingress.class: "nginx"
         hosts:
-          - host: "readarr.${SECRET_DOMAIN}"
+          - host: "calibre-server.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "readarr.${SECRET_DOMAIN}"
+              - "calibre-server.${SECRET_DOMAIN}"
     podSecurityContext:
       fsGroup: 65537
     persistence:
       config:
         enabled: true
-        existingClaim: readarr-config-v1
+        existingClaim: calibre-config-v1
       books:
         enabled: true
         existingClaim: nfs-media-books-pvc
         mountPath: /books
-      downloads:
-        enabled: true
-        existingClaim: nfs-media-downloads-pvc
-        mountPath: /downloads
     prometheus:
       podMonitor:
         enabled: true
