@@ -7,3 +7,4 @@ resources:
   - reloader
   - kured
   - descheduler
+  - node-feature-discovery
