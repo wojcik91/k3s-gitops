@@ -1,0 +1,56 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: bazarr
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: bazarr
+      version: 10.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/bazarr
+      tag: v0.9.5
+    env:
+      TZ: "Europe/Warsaw"
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+        hosts:
+          - host: "bazarr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "bazarr.${SECRET_DOMAIN}"
+    podSecurityContext:
+      fsGroup: 65537
+    persistence:
+      config:
+        enabled: true
+        existingClaim: bazarr-config-v1
+      movies:
+        enabled: true
+        existingClaim: nfs-media-movies-pvc
+        mountPath: /movies
+      tv:
+        enabled: true
+        existingClaim: nfs-media-tv-pvc
+        mountPath: /tv
+    prometheus:
+      podMonitor:
+        enabled: true
+        interval: 10m
+        scrapeTimeout: 2m
