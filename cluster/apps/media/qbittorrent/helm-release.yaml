@@ -49,10 +49,6 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
-      shared:
-        enabled: true
-        type: emptyDir
-        mountPath: /shared
     prometheus:
       podMonitor:
         enabled: true
