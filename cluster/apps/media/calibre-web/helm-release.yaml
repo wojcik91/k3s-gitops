@@ -1,0 +1,55 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: calibre-web
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: calibre-web
+      version: 8.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/linuxserver/calibre-web
+      tag: version-0.6.12
+    env:
+      TZ: "Europe/Warsaw"
+      PGID: 65537
+      PUID: 1034
+      DOCKER_MODS: "linuxserver/calibre-web:calibre"
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+        hosts:
+          - host: "calibre.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "calibre.${SECRET_DOMAIN}"
+    podSecurityContext:
+      fsGroup: 65537
+    persistence:
+      config:
+        enabled: true
+        existingClaim: calibre-web-config-v1
+      books:
+        enabled: true
+        existingClaim: nfs-media-books-pvc
+        mountPath: /books
+    prometheus:
+      podMonitor:
+        enabled: true
+        interval: 10m
+        scrapeTimeout: 2m
