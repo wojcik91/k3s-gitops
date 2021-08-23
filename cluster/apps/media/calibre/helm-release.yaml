@@ -24,6 +24,15 @@ spec:
       TZ: "Europe/Warsaw"
       PGID: 65537
       PUID: 1034
+    service:
+      webserver:
+        enabled: true
+        ports:
+          webserver:
+            enabled: true
+            port: 8081
+            protocol: TCP
+            targetPort: 8081
     ingress:
       main:
         enabled: true
