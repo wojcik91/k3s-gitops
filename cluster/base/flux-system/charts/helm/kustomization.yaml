@@ -11,3 +11,4 @@ resources:
   - stakater-charts.yaml
   - weaveworks-kured-charts.yaml
   - kubernetes-sigs-descheduler-charts.yaml
+  - hajimari-charts.yaml
