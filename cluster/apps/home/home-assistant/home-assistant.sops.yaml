@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
     name: home-assistant
-    namespace: home-assistant
+    namespace: home
 stringData:
     HASS_ELEVATION: ENC[AES256_GCM,data:Ef8=,iv:2glzmMd9Q/+SNwJMxyR9ni0UAha67/KJvVlQr7d1+oA=,tag:C5Jm78lcutkFNji4iONs1w==,type:str]
     HASS_LATITUDE: ENC[AES256_GCM,data:CQi8Y2PrQkzb,iv:twLLkgxEs8vUkzExKwYIQbkcgJytqcaKE18D4SZYJ5A=,tag:hfofh59ENDcvh6zFOVfHsQ==,type:str]
@@ -13,8 +13,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-08-19T14:51:42Z"
-    mac: ENC[AES256_GCM,data:TYtGzpZcpKXLnCXmnaKh9SAvI6M6PHXFFpNeH0djWHugc5p9n0gNcbP0tS6XpOs4vWkYrRH232FDP0Q3SgPmp5j/hb+AwYGyhBc3lzRZX2aA1ih2reZbRmjuxo69YYIMUPb4GII52B5YzlJUWN+Vr9Ud1O45uRqsGaIgX/enxxo=,iv:0DbCxBbkRGcaLmdkHt1VthphfkYAUjkmKxk2UlvTbnI=,tag:2V695AeTkrkc8LI17Qb2OA==,type:str]
+    lastmodified: "2021-08-23T19:02:05Z"
+    mac: ENC[AES256_GCM,data:TbmJhVxARxdVA2GAtvUyA5hohskS2Y/4gtXeXNTcNK4zllGvWvpb7ApNz7WwU42z4Kb/4eWnReroLZZOg7CAcUByP66puFSeTv2mMi+//08oIBgugfhstrn8CALgn7t2o/aNr1/YDb9Sr0rlEe1XCfIIcFj997zRNxD/a2zZ2fE=,iv:xVvHq2vjPcJ3e1146SAU8bhSccn+Bo6hDA9QhdmciDY=,tag:M1kQtDwAReXAD3gtwd4IYw==,type:str]
     pgp:
         - created_at: "2021-08-19T14:51:37Z"
           enc: |

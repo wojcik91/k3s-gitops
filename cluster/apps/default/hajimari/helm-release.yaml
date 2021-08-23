@@ -25,7 +25,7 @@ spec:
     hajimari:
       namespaceSelector:
         matchNames:
-          - home-assistant
+          - home
           - media
           - monitoring
       # customApps:

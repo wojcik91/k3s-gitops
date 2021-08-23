@@ -5,6 +5,6 @@ resources:
   - metallb-system.yaml
   - networking.yaml
   - monitoring.yaml
-  - home-assistant.yaml
+  - home.yaml
   - media.yaml
   - vpn-gateway.yaml
