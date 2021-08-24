@@ -6,6 +6,6 @@ resources:
   - networking
   - system-upgrade
   - monitoring
-  - home-assistant
+  - home
   - media
   - vpn-gateway
