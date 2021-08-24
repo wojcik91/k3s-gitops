@@ -22,16 +22,16 @@ spec:
       tag: "v0.9.0"
     sources:
       # - cpu
-    - custom
+      - custom
       # - iommu
       # - kernel
       # - local
       # - memory
       # - network
-    - pci
+      - pci
       # - storage
       # - system
-    - usb
+      - usb
 
     # node-feature-discovery configuration - see https://github.com/kubernetes-sigs/node-feature-discovery/blob/master/nfd-worker.conf.example for example
     config: |
@@ -48,57 +48,23 @@ spec:
             - "vendor"
             - "device"
         custom:
-          - name: "alarmdecoder"
+          - name: "printer"
             matchOn:
               - usbId:
-                  class: ["ff"]
-                  vendor: ["0403"]
-                  device: ["6015"]
-          - name: "zwave"
-            matchOn:
-              - usbId:
-                  class: ["02"]
-                  vendor: ["0658"]
-                  device: ["0200"]
-          - name: "coral-tpu"
-            matchOn:
-              - usbId:
-                  vendor: ["1a6e", "18d1"]
-          - name: "intel-gpu"
-            matchOn:
-              - pciId:
-                  class: ["0300"]
-                  vendor: ["8086"]
-          - name: "wyze-sense"
-            matchOn:
-              - usbId:
-                  class: ["03"]
-                  vendor: ["1a86"]
-                  device: ["e024"]
-          - name: "flight-aware"
-            matchOn:
-              - usbId:
-                  class: ["ff"]
-                  vendor: ["0bda"]
-                  device: ["2832"]
-          - name: "zigbee"
-            matchOn:
-              - usbId:
-                  class: ["02"]
-                  vendor: ["0451"]
-                  device: ["16a8"]
+                  vendor: ["04f9"]
+                  device: ["006a"]
     podAnnotations:
       configmap.reloader.stakater.com/reload: "node-feature-discovery"
     master:
       replicaCount: 1
       tolerations:
-      - key: "node-role.kubernetes.io/master"
-        operator: "Equal"
-        value: ""
-        effect: "NoSchedule"
-      - key: arm
-        operator: Exists
+        - key: "node-role.kubernetes.io/master"
+          operator: "Equal"
+          value: ""
+          effect: "NoSchedule"
+        - key: arm
+          operator: Exists
     worker:
       tolerations:
-      - key: arm
-        operator: Exists
+        - key: arm
+          operator: Exists
