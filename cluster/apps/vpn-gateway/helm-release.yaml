@@ -33,7 +33,7 @@ spec:
       VPN_LOCAL_CIDRS: "10.0.0.0/8"
 
     publicPorts:
-      - hostname: qbittorrent
+      - hostname: torrent
         IP: 10
         ports:
           - type: udp
