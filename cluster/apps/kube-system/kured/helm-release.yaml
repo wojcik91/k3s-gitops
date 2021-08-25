@@ -23,13 +23,13 @@ spec:
     updateStrategy: RollingUpdate
     configuration:
       startTime: "0:00"
-      endTime: "4:00"
+      endTime: "6:00"
       timeZone: "Europe/Warsaw"
     tolerations:
-    - key: "arm"
-      operator: "Exists"
-    - key: "node-role.kubernetes.io/master"
-      operator: "Exists"
+      - key: "arm"
+        operator: "Exists"
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
     metrics:
       create: true
     extraArgs:
