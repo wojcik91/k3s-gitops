@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hs110-exporter
+  name: hs110-exporter
+spec:
+  ports:
+    - name: "8110"
+      port: 8110
+      targetPort: 8110
+  selector:
+    app: hs110-exporter

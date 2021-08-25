@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hs110-exporter
+  name: hs110-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hs110-exporter
+  template:
+    metadata:
+      labels:
+        app: hs110-exporter
+    spec:
+      containers:
+        - env:
+            - name: HS110IP
+              value: 10.0.30.3
+            - name: FREQUENCY
+              value: "15"
+            - name: LISTENPORT
+              value: "8110"
+            - name: LABEL
+              value: location=rack
+          image: sdelrio/hs110-exporter:v1.0.0
+          imagePullPolicy: IfNotPresent
+          name: hs110-exporter
+          ports:
+            - containerPort: 8110
+              name: web
+              protocol: TCP
+      restartPolicy: Always
