@@ -12,3 +12,4 @@ resources:
   - weaveworks-kured-charts.yaml
   - kubernetes-sigs-descheduler-charts.yaml
   - hajimari-charts.yaml
+  - amd-gpu-charts.yaml
