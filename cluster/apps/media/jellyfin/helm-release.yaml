@@ -23,6 +23,10 @@ spec:
       TZ: "Europe/Warsaw"
       JELLYFIN_CACHE_DIR: "/config/cache"
     podSecurityContext:
+      supplementalGroups:
+        - 44
+        - 109
+        - 100
       fsGroup: 65537
     ingress:
       main:
