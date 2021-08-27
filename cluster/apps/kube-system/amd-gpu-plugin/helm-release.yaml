@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://radeonopencompute.github.io/k8s-device-plugin/
       chart: amd-gpu
-      version: 0.21.0
+      version: 0.2.0
       sourceRef:
         kind: HelmRepository
         name: amd-gpu-charts
