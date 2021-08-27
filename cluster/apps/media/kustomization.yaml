@@ -10,3 +10,4 @@ resources:
   - bazarr
   - calibre
   - calibre-web
+  - jellyfin
