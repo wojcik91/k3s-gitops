@@ -50,9 +50,14 @@ spec:
         custom:
           - name: "printer"
             matchOn:
-              - usbId:
-                  vendor: ["04f9"]
-                  device: ["006a"]
+            - usbId:
+                vendor: ["04f9"]
+                device: ["006a"]
+          - name: "intel-gpu"
+            matchOn:
+            - pciId:
+                class: ["0300"]
+                vendor: ["8086"]
     podAnnotations:
       configmap.reloader.stakater.com/reload: "node-feature-discovery"
     master:
