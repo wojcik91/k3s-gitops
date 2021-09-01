@@ -8,3 +8,4 @@ resources:
   - home.yaml
   - media.yaml
   - vpn-gateway.yaml
+  - longhorn-system.yaml
