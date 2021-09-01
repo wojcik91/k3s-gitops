@@ -9,3 +9,4 @@ resources:
   - home
   - media
   - vpn-gateway
+  - longhorn-system
