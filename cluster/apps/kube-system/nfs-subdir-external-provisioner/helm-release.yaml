@@ -20,4 +20,4 @@ spec:
       server: "10.0.10.13"
       path: "/volume2/k3s-volumes"
     storageClass:
-      defaultClass: true
+      defaultClass: false
