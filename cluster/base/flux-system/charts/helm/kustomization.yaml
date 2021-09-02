@@ -13,3 +13,4 @@ resources:
   - kubernetes-sigs-descheduler-charts.yaml
   - hajimari-charts.yaml
   - longhorn-charts.yaml
+  - vernemq-charts.yaml
