@@ -61,8 +61,7 @@ spec:
           - name: "coral-tpu"
             matchOn:
             - usbId:
-                vendor: ["1a6e"]
-                device: ["089a"]
+                vendor: ["1a6e", "18d1"]
     podAnnotations:
       configmap.reloader.stakater.com/reload: "node-feature-discovery"
     master:
