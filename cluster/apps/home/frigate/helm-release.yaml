@@ -109,9 +109,9 @@ spec:
               - clips
               - record
               - rtmp
-          height: 1536
-          width: 2048
-          fps: 10
+          height: 480
+          width: 640
+          fps: 7
           objects:
             filters:
               person:
@@ -143,9 +143,9 @@ spec:
               - clips
               - record
               - rtmp
-          height: 1536
-          width: 2048
-          fps: 10
+          height: 480
+          width: 640
+          fps: 7
           objects:
             filters:
               person:
