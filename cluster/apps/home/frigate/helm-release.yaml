@@ -35,6 +35,8 @@ spec:
               - "frigate.${SECRET_DOMAIN}"
     securityContext:
       privileged: true
+    podSecurityContext:
+      fsGroup: 65539
     persistence:
       data:
         enabled: true
@@ -96,6 +98,9 @@ spec:
         - /dev/dri/renderD128
         - -hwaccel_output_format
         - yuv420p
+        input_args:
+        - -use_wallclock_as_timestamps
+        - '1'
       cameras:
         # --
         front:
