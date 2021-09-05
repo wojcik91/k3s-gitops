@@ -103,10 +103,10 @@ spec:
         front:
           ffmpeg:
             inputs:
-            - path: rtsp://admin:${CAM_FRONT_PASS}@10.0.40.10:554/h264Preview_01_sub
+            - path: rtmp://10.0.40.10/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=${CAM_FRONT_PASS}
               roles:
               - detect
-            - path: rtsp://admin:${CAM_FRONT_PASS}@10.0.40.10:554/h264Preview_01_main
+            - path: rtmp://10.0.40.10/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=${CAM_FRONT_PASS}
               roles:
               - clips
               - record
@@ -137,10 +137,10 @@ spec:
         back:
           ffmpeg:
             inputs:
-            - path: rtsp://admin:${CAM_BACK_PASS}@10.0.40.9:554/h264Preview_01_sub
+            - path: rtmp://10.0.40.9/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=${CAM_BACK_PASS}
               roles:
               - detect
-            - path: rtsp://admin:${CAM_BACK_PASS}@10.0.40.9:554/h264Preview_01_main
+            - path: rtmp://10.0.40.9/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=${CAM_BACK_PASS}
               roles:
               - clips
               - record
