@@ -14,3 +14,4 @@ resources:
   - hajimari-charts.yaml
   - longhorn-charts.yaml
   - vernemq-charts.yaml
+  - infracloudio-charts.yaml
