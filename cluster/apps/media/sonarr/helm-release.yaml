@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: sonarr
-      version: 13.0.0
+      version: 14.0.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -50,8 +50,8 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
-    prometheus:
+    exporter:
+      enabled: true
       podMonitor:
-        enabled: true
         interval: 10m
         scrapeTimeout: 2m
