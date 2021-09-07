@@ -50,8 +50,8 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
-    prometheus:
+    exporter:
+      enabled: true
       podMonitor:
-        enabled: true
         interval: 10m
         scrapeTimeout: 2m
