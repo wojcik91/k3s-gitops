@@ -5,3 +5,4 @@ resources:
   - kube-prometheus-stack
   - hs110-exporter
   - botkube
+  - speedtest-prometheus
