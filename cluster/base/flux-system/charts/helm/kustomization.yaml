@@ -15,3 +15,4 @@ resources:
   - longhorn-charts.yaml
   - vernemq-charts.yaml
   - infracloudio-charts.yaml
+  - grafana-charts.yaml
