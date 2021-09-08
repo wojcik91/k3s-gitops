@@ -6,3 +6,5 @@ resources:
   - hs110-exporter
   - botkube
   - speedtest-exporter
+  - grafana
+  - thanos
