@@ -110,6 +110,12 @@ spec:
     # Setting this option to 0 disabled CPU limits
     prometheusOperator:
       configReloaderCpu: 0
+      admissionWebhooks:
+        enabled: false
+        patch:
+          enabled: false
+      tlsProxy:
+        enabled: false
     prometheus:
       ingress:
         enabled: true
