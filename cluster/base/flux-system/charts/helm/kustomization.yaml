@@ -16,3 +16,4 @@ resources:
   - vernemq-charts.yaml
   - infracloudio-charts.yaml
   - grafana-charts.yaml
+  - deliveryhero-charts.yaml
