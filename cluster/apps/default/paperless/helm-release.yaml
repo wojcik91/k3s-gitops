@@ -21,7 +21,7 @@ spec:
       tag: 1.4.5
       pullPolicy: IfNotPresent
     env:
-      PAPERLESS_OCR_LANGUAGE: "pl"
+      PAPERLESS_OCR_LANGUAGE: "pol"
       PAPERLESS_TIME_ZONE: "Europe/Warsaw"
     ingress:
       main:
