@@ -20,8 +20,10 @@ spec:
     image:
       repository: ghcr.io/miguelndecarvalho/speedtest-exporter
       tag: v3.3.2
-    prometheus:
+    env:
+      TZ: "Europe/Warsaw"
+    metrics:
+      enabled: true
       serviceMonitor:
-        enabled: true
         interval: 30m
         scrapeTimeout: 1m
