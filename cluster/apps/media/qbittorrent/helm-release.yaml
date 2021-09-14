@@ -40,17 +40,6 @@ spec:
         tls:
           - hosts:
               - "qbittorrent.${SECRET_DOMAIN}"
-    exporter:
-      enabled: false
-      image:
-        repository: ghcr.io/k8s-at-home/prometheus-qbittorrent-exporter
-        tag: v1.2.0
-      env:
-        user: "${SECRET_QB_USERNAME}"
-        password: "${SECRET_QB_PASSWORD}"
-      serviceMonitor:
-        interval: 1m
-        scrapeTimeout: 10s
     podSecurityContext:
       fsGroup: 65537
     persistence:
@@ -61,8 +50,28 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
-    prometheus:
-      podMonitor:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 30s
+        scrapeTimeout: 5s
+      prometheusRule:
         enabled: true
-        interval: 10m
-        scrapeTimeout: 2m
+        rules:
+          - alert: qBittorrentDown
+            annotations:
+              description: qBittorrent service is down.
+              summary: qBittorrent is down.
+            expr: |
+              qbittorrent_up == 0
+            for: 5m
+            labels:
+              severity: critical
+      exporter:
+        image:
+          repository: esanchezm/prometheus-qbittorrent-exporter
+          tag: v1.2.0
+          pullPolicy: IfNotPresent
+        env:
+          user: "${SECRET_QB_USERNAME}"
+          password: "${SECRET_QB_PASSWORD}"
