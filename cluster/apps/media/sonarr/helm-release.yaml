@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: sonarr
-      version: 14.0.0
+      version: 15.0.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -50,8 +50,31 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
-    exporter:
+    metrics:
       enabled: true
-      podMonitor:
-        interval: 10m
-        scrapeTimeout: 2m
+      serviceMonitor:
+        interval: 5m
+        scrapeTimeout: 1m
+      prometheusRule:
+        enabled: true
+        rules:
+          - alert: SonarrDown
+            annotations:
+              description: Sonarr service is down.
+              summary: Sonarr is down.
+            expr: |
+              sonarr_system_status == 0
+            for: 5m
+            labels:
+              severity: critical
+      exporter:
+        image:
+          repository: ghcr.io/onedr0p/exportarr
+          tag: v0.6.1
+        env:
+          # -- metrics port
+          port: 9794
+          # -- Set to true to enable gathering of additional metrics (slow)
+          additionalMetrics: false
+          # -- Set to true to enable gathering unknown queue items
+          unknownQueueItems: false
