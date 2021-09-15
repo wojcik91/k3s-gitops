@@ -7,14 +7,15 @@ stringData:
     HASS_ELEVATION: ENC[AES256_GCM,data:Ef8=,iv:2glzmMd9Q/+SNwJMxyR9ni0UAha67/KJvVlQr7d1+oA=,tag:C5Jm78lcutkFNji4iONs1w==,type:str]
     HASS_LATITUDE: ENC[AES256_GCM,data:CQi8Y2PrQkzb,iv:twLLkgxEs8vUkzExKwYIQbkcgJytqcaKE18D4SZYJ5A=,tag:hfofh59ENDcvh6zFOVfHsQ==,type:str]
     HASS_LONGITUDE: ENC[AES256_GCM,data:8i62umf4Uc5mjw==,iv:FIUwj79SMLPmJWUzY0TWmrYP3Otc936HTYDKL9QyqK8=,tag:tT/K1LiM8z8azwUdmekVNg==,type:str]
+    PROMETHEUS_TOKEN: ENC[AES256_GCM,data:9/oDm26B0rM6QUe3NWK7hPNbVv/dzJV8lGFCniAAHbt+6L3SIWfKIhbtigodDTTyMv0R4qs4jA6u0XXDU3aH313jOao0JM3JQZBHNwFBStFicqwCMavtlpiD54etOiQtamMghIsjDuTnDDTxDaVKd6WoQCsnKdoCoZFtDbKK/n+WaueVIIG1XwhkcfNk7eewrdbtmhRlM9ouSBwgc+KAPT4fteIxOuwMDISUtKVumbjMH3i3HU1/,iv:aCpI1rpxGC4PucaIsAgc17C4z01drvNv+SoZyuXaXEQ=,tag:DIDRFH4q0yMOJj/mSk+MOw==,type:str]
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-08-23T19:02:05Z"
-    mac: ENC[AES256_GCM,data:TbmJhVxARxdVA2GAtvUyA5hohskS2Y/4gtXeXNTcNK4zllGvWvpb7ApNz7WwU42z4Kb/4eWnReroLZZOg7CAcUByP66puFSeTv2mMi+//08oIBgugfhstrn8CALgn7t2o/aNr1/YDb9Sr0rlEe1XCfIIcFj997zRNxD/a2zZ2fE=,iv:xVvHq2vjPcJ3e1146SAU8bhSccn+Bo6hDA9QhdmciDY=,tag:M1kQtDwAReXAD3gtwd4IYw==,type:str]
+    lastmodified: "2021-09-15T06:59:01Z"
+    mac: ENC[AES256_GCM,data:yCO6mnxpvf9RTD4CvZHfR1mK2Cmh4VaMQp6rPhVnw1qW6m9FbZqsbZSO3Q9aVqPJ3IBxF6twb6umpKuvmuy9YJGJ4zWOvfNbGaBq1EemH6ZvJd0IpZK1iDmJ0db7ptOWwLfkCVZtjhBII/qCg2qScqUqoMuLj9gDkPFDLhV5b1A=,iv:lDAIuENuKgl2Pl7e2SlBbQdTUmGFBFzLZTZILE7xJZM=,tag:mdI1i2OQ/N7sASqB/jAQBg==,type:str]
     pgp:
         - created_at: "2021-08-19T14:51:37Z"
           enc: |
