@@ -20,11 +20,14 @@ spec:
     image:
       repository: ghcr.io/0xerr0r/blocky
       tag: v0.15
+
     controller:
-      replicas: 3
+      replicas: 2
       strategy: RollingUpdate
+
     env:
       TZ: "Europe/Warsaw"
+
     service:
       main:
         ports:
@@ -56,9 +59,26 @@ spec:
         externalTrafficPolicy: Local
         annotations:
           metallb.universe.tf/allow-shared-ip: blocky
-    prometheus:
+
+    metrics:
+      enabled: true
       serviceMonitor:
+        interval: 30s
+        scrapeTimeout: 10s
+      prometheusRule:
         enabled: true
+        rules:
+          - alert: BlockyDisabled
+            annotations:
+              description: Blocky's ad blocking has been disabled for 15min.
+                Please re-enable protection.
+              summary: Blocky is disabled.
+            expr: |
+              blocky_blocking_enabled == 0
+            for: 15m
+            labels:
+              severity: critical
+
     resources:
       requests:
         memory: 280Mi
@@ -78,6 +98,8 @@ spec:
           ${SECRET_DOMAIN}: 10.0.60.100
           plex.${SECRET_DOMAIN}: 10.0.10.13
           dsm.${SECRET_DOMAIN}: 10.0.10.13
+          minio.${SECRET_DOMAIN}: 10.0.10.13
+          omada.${SECRET_DOMAIN}: 10.0.10.13
       blocking:
         blackLists:
           ads:
@@ -103,3 +125,4 @@ spec:
         path: /metrics
       httpPort: 4000
       logLevel: info
+      bootstrapDns: tcp:1.1.1.1
