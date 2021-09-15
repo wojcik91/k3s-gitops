@@ -20,11 +20,13 @@ spec:
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2021.9.6
+
     env:
       TZ: "Europe/Warsaw"
     envFrom:
       - secretRef:
           name: home-assistant
+
     ingress:
       main:
         enabled: true
@@ -39,13 +41,12 @@ spec:
         tls:
           - hosts:
               - "hass.${SECRET_DOMAIN}"
-    prometheus:
-      serviceMonitor:
-        enabled: true
+
     persistence:
       config:
         enabled: true
         existingClaim: home-assistant-config-v1
+
     postgresql:
       enabled: true
       postgresqlUsername: home-assistant
@@ -53,6 +54,7 @@ spec:
       postgresqlDatabase: home-assistant
       persistence:
         enabled: true
+
     influxdb:
       enabled: true
       architecture: standalone
@@ -60,6 +62,31 @@ spec:
       authEnabled: false
       persistence:
         enabled: true
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 1m
+        scrapeTimeout: 30s
+        ## See https://www.home-assistant.io/docs/authentication/ for where to find
+        ## long lived access token creation under your account profile, which is
+        ## needed to monitor Home Assistant
+        bearerTokenSecret:
+          name: "home-assistant"
+          key: "PROMETHEUS_TOKEN"
+      prometheusRule:
+        enabled: true
+        rules:
+          - alert: HomeAssistantAbsent
+            annotations:
+              description: Home Assistant has disappeared from Prometheus service discovery.
+              summary: Home Assistant is down.
+            expr: |
+              absent(up{job=~".*home-assistant.*"} == 1)
+            for: 5m
+            labels:
+              severity: critical
+
     addons:
       codeserver:
         enabled: true
