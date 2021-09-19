@@ -50,8 +50,24 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
-    exporter:
+    metrics:
       enabled: true
-      podMonitor:
-        interval: 10m
-        scrapeTimeout: 2m
+      serviceMonitor:
+        interval: 3m
+        scrapeTimeout: 1m
+      prometheusRule:
+        enabled: true
+        rules:
+          - alert: RadarrDown
+            annotations:
+              description: Radarr service is down.
+              summary: Radarr is down.
+            expr: |
+              radarr_system_status == 0
+            for: 5m
+            labels:
+              severity: critical
+      exporter:
+        image:
+          repository: ghcr.io/onedr0p/exportarr
+          tag: v0.6.1
