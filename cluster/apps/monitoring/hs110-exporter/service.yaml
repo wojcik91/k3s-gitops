@@ -5,6 +5,7 @@ metadata:
   labels:
     app: hs110-exporter
   name: hs110-exporter
+  namespace: monitoring
 spec:
   ports:
     - name: "8110"
