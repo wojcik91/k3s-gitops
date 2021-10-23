@@ -48,7 +48,7 @@ spec:
         volumeSpec:
           nfs:
             server: 10.0.10.13
-            path: /volume3/frigate
+            path: /volume2/frigate
         mountPath: /media
       usb:
         enabled: true
