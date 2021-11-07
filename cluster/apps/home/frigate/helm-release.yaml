@@ -92,7 +92,7 @@ spec:
             threshold: 0.7
       record:
         enabled: True
-        retain_days: 7
+        retain_days: 14
       snapshots:
         enabled: True
         timestamp: False
@@ -102,6 +102,21 @@ spec:
         height: 480
         width: 640
         fps: 7
+      birdseye:
+        enabled: True
+        # Optional: Mode of the view. Available options are: objects, motion, and continuous
+        #   objects - cameras are included if they have had a tracked object within the last 30 seconds
+        #   motion - cameras are included if motion was detected in the last 30 seconds
+        #   continuous - all cameras are included always
+        mode: continuous
+      timestamp_style:
+        # Optional: Position of the timestamp (default: shown below)
+        #           "tl" (top left), "tr" (top right), "bl" (bottom left), "br" (bottom right)
+        position: "tl"
+        # Optional: Format specifier conform to the Python package "datetime" (default: shown below)
+        #           Additional Examples:
+        #             german: "%d.%m.%Y %H:%M:%S"
+        format: "%m/%d/%Y %H:%M:%S"
       ffmpeg:
         input_args:
         - -avoid_negative_ts
