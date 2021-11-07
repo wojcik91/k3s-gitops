@@ -118,14 +118,26 @@ spec:
         #             german: "%d.%m.%Y %H:%M:%S"
         format: "%m/%d/%Y %H:%M:%S"
       ffmpeg:
-        input_args: -avoid_negative_ts make_zero -fflags +genpts+discardcorrupt -rtsp_transport tcp -stimeout 5000000 -use_wallclock_as_timestamps 1
+        input_args:
+          - -avoid_negative_ts
+          - make_zero
+          - -fflags
+          - nobuffer
+          - -flags
+          - low_delay
+          - -strict
+          - experimental
+          - -fflags
+          - +genpts+discardcorrupt
+          - -use_wallclock_as_timestamps
+          - '1'
         hwaccel_args:
-        - -hwaccel
-        - vaapi
-        - -hwaccel_device
-        - /dev/dri/renderD128
-        - -hwaccel_output_format
-        - yuv420p
+          - -hwaccel
+          - vaapi
+          - -hwaccel_device
+          - /dev/dri/renderD128
+          - -hwaccel_output_format
+          - yuv420p
       cameras:
         # --
         front:
