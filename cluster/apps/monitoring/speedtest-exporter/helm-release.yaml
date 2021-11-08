@@ -25,5 +25,5 @@ spec:
     metrics:
       enabled: true
       serviceMonitor:
-        interval: 30m
+        interval: 3h
         scrapeTimeout: 1m
