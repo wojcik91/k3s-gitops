@@ -16,3 +16,4 @@ resources:
   - infracloudio-charts.yaml
   - grafana-charts.yaml
   - deliveryhero-charts.yaml
+  - metrics-server-charts.yaml
