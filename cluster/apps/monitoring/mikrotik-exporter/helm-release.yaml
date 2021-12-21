@@ -1,0 +1,32 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mikrotik-exporter
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./prometheus-mikrotik-exporter
+      sourceRef:
+        kind: GitRepository
+        name: mikrotik-prometheus-exporter-chart
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: nshttpd/mikrotik-exporter
+      tag: 1.0.9
+
+    secretConfig: true
+    config:
+      devices:
+        - name: RB4011
+          address: ${MIKROTIK_RB4011_IP}
+          user: prometheus
+          password: ${MIKROTIK_RB4011_PASSWORD}
+        - name: WAP ac LTE6
+          address: ${MIKROTIK_WAP_LTE_IP}
+          user: prometheus
+          password: ${MIKROTIK_WAP_LTE_PASSWORD}

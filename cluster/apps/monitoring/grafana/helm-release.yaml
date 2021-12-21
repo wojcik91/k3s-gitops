@@ -107,6 +107,10 @@ spec:
         qbittorrent:
           url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
           datasource: Prometheus
+        mikrotik:
+          gnetId: 10950
+          revision: 1
+          datasource: Prometheus
     sidecar:
       dashboards:
         enabled: true

@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: mikrotik-prometheus-exporter-chart
+  namespace: flux-system
+spec:
+  interval: 30m
+  url: https://github.com/GlorifiedTypist/mikrotik-prometheus-exporter-helm-chart
+  ref:
+    branch: master

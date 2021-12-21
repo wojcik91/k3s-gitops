@@ -171,3 +171,9 @@ spec:
             static_configs:
               - targets:
                   - home-assistant.home.svc:8123
+          - job_name: "mikrotik-exporter"
+            scrape_interval: 10s
+            honor_timestamps: true
+            static_configs:
+              - targets:
+                  - "mikrotik-exporter.monitoring.svc.cluster.local:9436"
