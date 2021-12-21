@@ -23,10 +23,10 @@ spec:
     config:
       devices:
         - name: RB4011
-          address: ${MIKROTIK_RB4011_IP}
+          address: "${MIKROTIK_RB4011_IP}"
           user: prometheus
-          password: ${MIKROTIK_RB4011_PASSWORD}
+          password: "${MIKROTIK_RB4011_PASSWORD}"
         - name: WAP ac LTE6
-          address: ${MIKROTIK_WAP_LTE_IP}
+          address: "${MIKROTIK_WAP_LTE_IP}"
           user: prometheus
-          password: ${MIKROTIK_WAP_LTE_PASSWORD}
+          password: "${MIKROTIK_WAP_LTE_PASSWORD}"
