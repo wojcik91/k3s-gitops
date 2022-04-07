@@ -33,4 +33,4 @@ spec:
     metrics:
       create: true
     extraArgs:
-      notify-url: "${SECRET_KURED_DISCORD_WEBHOOK}"
+      notify-url: "${SECRET_KURED_NOTIFY_URL}"
