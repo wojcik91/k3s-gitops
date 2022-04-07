@@ -26,7 +26,3 @@ spec:
           address: "${MIKROTIK_RB4011_IP}"
           user: prometheus
           password: "${MIKROTIK_RB4011_PASSWORD}"
-        - name: WAP ac LTE6
-          address: "${MIKROTIK_WAP_LTE_IP}"
-          user: prometheus
-          password: "${MIKROTIK_WAP_LTE_PASSWORD}"
