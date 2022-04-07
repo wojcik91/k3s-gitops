@@ -24,7 +24,7 @@ spec:
     serviceMonitor:
       enabled: true
     config:
-      recommendations: false
+      recommendations: true
       settings:
         clustername: homelab
         kubectl:
