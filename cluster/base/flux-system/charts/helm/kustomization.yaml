@@ -16,3 +16,4 @@ resources:
   - grafana-charts.yaml
   - deliveryhero-charts.yaml
   - metrics-server-charts.yaml
+  - hajimari-charts.yaml
