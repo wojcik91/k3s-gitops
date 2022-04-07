@@ -13,7 +13,6 @@ resources:
   - kubernetes-sigs-descheduler-charts.yaml
   - longhorn-charts.yaml
   - vernemq-charts.yaml
-  - infracloudio-charts.yaml
   - grafana-charts.yaml
   - deliveryhero-charts.yaml
   - metrics-server-charts.yaml
