@@ -17,3 +17,4 @@ resources:
   - deliveryhero-charts.yaml
   - metrics-server-charts.yaml
   - hajimari-charts.yaml
+  - ealenn-charts.yaml
