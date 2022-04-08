@@ -62,107 +62,111 @@ spec:
         medium: Memory
         sizeLimit: 2Gi
         mountPath: /dev/shm
-    config: |
-      mqtt:
-        host: vernemq
-        topic_prefix: frigate
-        user: nouser
-        password: nopassword
-      database:
-        path: /data/frigate.db
-      detectors:
-        coral:
-          type: edgetpu
-          device: usb
-      objects:
-        track:
-        - person
-        - dog
-        - cat
-        filters:
-          person:
-            min_area: 1500
-            max_area: 100000
-            threshold: 0.7
-          dog:
-            min_area: 1000
-            max_area: 10000
-            threshold: 0.7
-          cat:
-            min_area: 1000
-            max_area: 10000
-            threshold: 0.7
-      record:
-        enabled: True
-        retain_days: 14
-      snapshots:
-        enabled: True
-        timestamp: False
-        retain:
-          default: 14
-      detect:
-        height: 480
-        width: 640
-        fps: 7
-      birdseye:
-        enabled: True
-        # Optional: Mode of the view. Available options are: objects, motion, and continuous
-        #   objects - cameras are included if they have had a tracked object within the last 30 seconds
-        #   motion - cameras are included if motion was detected in the last 30 seconds
-        #   continuous - all cameras are included always
-        mode: continuous
-      timestamp_style:
-        # Optional: Position of the timestamp (default: shown below)
-        #           "tl" (top left), "tr" (top right), "bl" (bottom left), "br" (bottom right)
-        position: "tl"
-        # Optional: Format specifier conform to the Python package "datetime" (default: shown below)
-        #           Additional Examples:
-        #             german: "%d.%m.%Y %H:%M:%S"
-        format: "%m/%d/%Y %H:%M:%S"
-      ffmpeg:
-        input_args:
-          - -avoid_negative_ts
-          - make_zero
-          - -fflags
-          - nobuffer
-          - -flags
-          - low_delay
-          - -strict
-          - experimental
-          - -fflags
-          - +genpts+discardcorrupt
-          - -use_wallclock_as_timestamps
-          - '1'
-        hwaccel_args:
-          - -hwaccel
-          - vaapi
-          - -hwaccel_device
-          - /dev/dri/renderD128
-          - -hwaccel_output_format
-          - yuv420p
-      cameras:
-        # --
-        front:
-          ffmpeg:
-            inputs:
-            - path: rtmp://10.0.40.10/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=${CAM_FRONT_PASS}
-              roles:
-              - detect
-            - path: rtmp://10.0.40.10/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=${CAM_FRONT_PASS}
-              roles:
-              - record
-              - rtmp
-        # --
-        back:
-          ffmpeg:
-            inputs:
-            - path: rtmp://10.0.40.9/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=${CAM_BACK_PASS}
-              roles:
-              - detect
-            - path: rtmp://10.0.40.9/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=${CAM_BACK_PASS}
-              roles:
-              - record
-              - rtmp
+    configmap:
+      config:
+        enabled: true
+        data:
+          config.yml: |
+            mqtt:
+              host: vernemq
+              topic_prefix: frigate
+              user: nouser
+              password: nopassword
+            database:
+              path: /data/frigate.db
+            detectors:
+              coral:
+                type: edgetpu
+                device: usb
+            objects:
+              track:
+              - person
+              - dog
+              - cat
+              filters:
+                person:
+                  min_area: 1500
+                  max_area: 100000
+                  threshold: 0.7
+                dog:
+                  min_area: 1000
+                  max_area: 10000
+                  threshold: 0.7
+                cat:
+                  min_area: 1000
+                  max_area: 10000
+                  threshold: 0.7
+            record:
+              enabled: True
+              retain_days: 14
+            snapshots:
+              enabled: True
+              timestamp: False
+              retain:
+                default: 14
+            detect:
+              height: 480
+              width: 640
+              fps: 7
+            birdseye:
+              enabled: True
+              # Optional: Mode of the view. Available options are: objects, motion, and continuous
+              #   objects - cameras are included if they have had a tracked object within the last 30 seconds
+              #   motion - cameras are included if motion was detected in the last 30 seconds
+              #   continuous - all cameras are included always
+              mode: continuous
+            timestamp_style:
+              # Optional: Position of the timestamp (default: shown below)
+              #           "tl" (top left), "tr" (top right), "bl" (bottom left), "br" (bottom right)
+              position: "tl"
+              # Optional: Format specifier conform to the Python package "datetime" (default: shown below)
+              #           Additional Examples:
+              #             german: "%d.%m.%Y %H:%M:%S"
+              format: "%m/%d/%Y %H:%M:%S"
+            ffmpeg:
+              input_args:
+                - -avoid_negative_ts
+                - make_zero
+                - -fflags
+                - nobuffer
+                - -flags
+                - low_delay
+                - -strict
+                - experimental
+                - -fflags
+                - +genpts+discardcorrupt
+                - -use_wallclock_as_timestamps
+                - '1'
+              hwaccel_args:
+                - -hwaccel
+                - vaapi
+                - -hwaccel_device
+                - /dev/dri/renderD128
+                - -hwaccel_output_format
+                - yuv420p
+            cameras:
+              # --
+              front:
+                ffmpeg:
+                  inputs:
+                  - path: rtmp://10.0.40.10/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=${CAM_FRONT_PASS}
+                    roles:
+                    - detect
+                  - path: rtmp://10.0.40.10/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=${CAM_FRONT_PASS}
+                    roles:
+                    - record
+                    - rtmp
+              # --
+              back:
+                ffmpeg:
+                  inputs:
+                  - path: rtmp://10.0.40.9/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=${CAM_BACK_PASS}
+                    roles:
+                    - detect
+                  - path: rtmp://10.0.40.9/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=${CAM_BACK_PASS}
+                    roles:
+                    - record
+                    - rtmp
     podAnnotations:
       configmap.reloader.stakater.com/reload: "frigate-config"
     affinity:
