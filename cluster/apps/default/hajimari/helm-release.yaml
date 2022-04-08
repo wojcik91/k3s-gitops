@@ -70,14 +70,6 @@ spec:
               url: "http://trakt.tv"
             - name: YouTube
               url: "https://youtube.com/feed/subscriptions"
-        - name: Reading
-          links:
-            - name: Instapaper
-              url: "https://www.instapaper.com/u"
-            - name: Medium
-              url: "http://medium.com"
-            - name: Reddit
-              url: "http://reddit.com"
         - name: Tech
           links:
             - name: Hacker News
