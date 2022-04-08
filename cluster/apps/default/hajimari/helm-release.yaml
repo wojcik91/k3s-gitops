@@ -27,16 +27,16 @@ spec:
       repository: ghcr.io/toboshii/hajimari
       tag: v0.2.0
     hajimari:
-      defaultEnable: true
+      defaultEnable: false
       namespaceSelector:
         matchNames:
           - default
           - networking
       name: "you"
       customApps:
-        - name: Some External Cluster Service
-          url: http://192.168.1.100:5000
-          icon: test-tube
+        - name: Synology DSM
+          url: https://dsm.${SECRET_DOMAIN}
+          icon: network-attached-storage
       groups:
         - name: Communicate
           links:
@@ -54,14 +54,6 @@ spec:
               url: "https://dropbox.com"
             - name: Drive
               url: "https://drive.google.com"
-        - name: Design
-          links:
-            - name: Awwwards
-              url: "https://awwwards.com"
-            - name: Dribbble
-              url: "https://dribbble.com"
-            - name: Muz.li
-              url: "https://medium.muz.li/"
         - name: Dev
           links:
             - name: Codepen
@@ -70,14 +62,6 @@ spec:
               url: "https://devdocs.io"
             - name: Devhints
               url: "https://devhints.io"
-        - name: Lifestyle
-          links:
-            - name: Design Milk
-              url: "https://design-milk.com/category/interior-design/"
-            - name: Dwell
-              url: "https://www.dwell.com/"
-            - name: Freshome
-              url: "https://www.mymove.com/freshome/"
         - name: Media
           links:
             - name: Spotify

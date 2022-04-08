@@ -33,6 +33,8 @@ spec:
         enabled: true
         annotations:
           kubernetes.io/ingress.class: "nginx"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "filmstrip-box-multiple"
         hosts:
           - host: "jellyfin.${SECRET_DOMAIN}"
             paths:

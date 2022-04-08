@@ -31,6 +31,8 @@ spec:
         enabled: true
         annotations:
           kubernetes.io/ingress.class: "nginx"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "download"
         hosts:
           - host: "qbittorrent.${SECRET_DOMAIN}"
             paths:

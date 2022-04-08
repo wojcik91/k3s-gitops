@@ -32,6 +32,8 @@ spec:
         enabled: true
         annotations:
           kubernetes.io/ingress.class: "nginx"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "home-assistant"
         hosts:
           - host: "hass.${SECRET_DOMAIN}"
             paths:
@@ -104,6 +106,8 @@ spec:
           enabled: true
           annotations:
             kubernetes.io/ingress.class: "nginx"
+            hajimari.io/enable: "true"
+            hajimari.io/icon: "home-assistant"
           hosts:
             - host: "hass-config.${SECRET_DOMAIN}"
               paths:
