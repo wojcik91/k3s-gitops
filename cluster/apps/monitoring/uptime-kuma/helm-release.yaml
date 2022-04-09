@@ -24,6 +24,10 @@ spec:
     remediation:
       retries: 3
   values:
+    image:
+      repository: louislam/uptime-kuma
+      tag: 1.13.2
+
     env:
       TZ: Europe/Warsaw
       UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN: 0
