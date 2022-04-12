@@ -98,7 +98,8 @@ spec:
                   threshold: 0.7
             record:
               enabled: True
-              retain_days: 14
+              retain:
+                days: 14
             snapshots:
               enabled: True
               timestamp: False
