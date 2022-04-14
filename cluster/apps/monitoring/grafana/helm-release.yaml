@@ -79,7 +79,7 @@ spec:
         # Ref: https://grafana.com/grafana/dashboards/13502
         minio:
           gnetId: 13502
-          revision: 10
+          revision: 13
           datasource: Prometheus
         vernemq:
           url: https://raw.githubusercontent.com/vernemq/vernemq/master/metrics_scripts/grafana/VerneMQ%20Node%20Metrics.json
@@ -90,7 +90,7 @@ spec:
         # Ref: https://grafana.com/grafana/dashboards/13665
         speedtest:
           gnetId: 13665
-          revision: 1
+          revision: 3
           datasource: Prometheus
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/grafana/dashboards/cluster.json
