@@ -17,8 +17,8 @@ spec:
         namespace: flux-system
   values:
     image:
-      repository: ghcr.io/k8s-at-home/jellyfin
-      tag: v10.7.7
+      repository: docker.io/jellyfin/jellyfin
+      tag: 10.8.0-beta2
     env:
       TZ: "Europe/Warsaw"
       JELLYFIN_CACHE_DIR: "/config/cache"
