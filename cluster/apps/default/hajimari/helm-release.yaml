@@ -32,7 +32,11 @@ spec:
         matchNames:
           - default
           - networking
-      name: "you"
+          - media
+          - home
+          - monitoring
+          - longhorn-system
+      name: "You"
       customApps:
         - name: Synology DSM
           url: https://dsm.${SECRET_DOMAIN}
