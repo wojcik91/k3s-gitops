@@ -23,6 +23,7 @@ spec:
     env:
       PAPERLESS_OCR_LANGUAGE: "eng"
       PAPERLESS_TIME_ZONE: "Europe/Warsaw"
+      PAPERLESS_URL: "https://docs.${SECRET_DOMAIN}"
     ingress:
       main:
         enabled: true
@@ -63,8 +64,5 @@ spec:
           nfs:
             server: ${NAS_ADDR}
             path: /volume2/documents/export
-    additionalContainers:
-      broker:
-        name: broker
-        image: redis:6.2
-        imagePullPolicy: IfNotPresent
+    redis:
+      enabled: true
