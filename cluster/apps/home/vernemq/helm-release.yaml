@@ -26,8 +26,7 @@ spec:
       create: true
     service:
       type: LoadBalancer
-      externalIPs:
-        - "10.0.60.120"
+      loadBalancerIP: "${METALLB_VERNEMQ_IP}"
       ws:
         enabled: true
         nodePort: 32080
