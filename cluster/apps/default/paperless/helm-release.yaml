@@ -40,6 +40,7 @@ spec:
         tls:
           - hosts:
               - "docs.${SECRET_DOMAIN}"
+            secretName: docs-tls
     persistence:
       data:
         enabled: true

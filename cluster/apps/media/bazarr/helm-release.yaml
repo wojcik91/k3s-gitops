@@ -38,6 +38,7 @@ spec:
         tls:
           - hosts:
               - "bazarr.${SECRET_DOMAIN}"
+            secretName: bazarr-tls
     podSecurityContext:
       fsGroup: 65537
     persistence:

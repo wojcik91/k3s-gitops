@@ -39,6 +39,7 @@ spec:
         tls:
           - hosts:
               - "esphome.${SECRET_DOMAIN}"
+            secretName: esphome-tls
     persistence:
       config:
         enabled: true
