@@ -41,6 +41,8 @@ spec:
           - hosts:
               - "docs.${SECRET_DOMAIN}"
             secretName: docs-tls
+    podSecurityContext:
+      fsGroup: 65541
     persistence:
       data:
         enabled: true
