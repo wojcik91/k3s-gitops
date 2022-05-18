@@ -35,7 +35,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: "traefik"
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/enable: "true"
@@ -46,7 +46,8 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - hosts:
+          - secretName: uptime-tls
+            hosts:
               - "uptime.${SECRET_DOMAIN}"
 
     persistence:
@@ -54,7 +55,7 @@ spec:
         enabled: true
         mountPath: /app/data
         existingClaim: uptime-kuma-data
-    
+
     resources:
       requests:
         cpu: 100m

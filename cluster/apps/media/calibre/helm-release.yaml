@@ -36,8 +36,9 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "traefik"
         annotations:
-          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
           - host: "calibre-server.${SECRET_DOMAIN}"
             paths:
@@ -46,6 +47,7 @@ spec:
         tls:
           - hosts:
               - "calibre-server.${SECRET_DOMAIN}"
+            secretName: calibre-server-tls
     podSecurityContext:
       fsGroup: 65537
     persistence:

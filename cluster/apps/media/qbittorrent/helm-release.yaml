@@ -29,8 +29,9 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "traefik"
         annotations:
-          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/enable: "true"
           hajimari.io/icon: "download"
         hosts:
@@ -41,6 +42,7 @@ spec:
         tls:
           - hosts:
               - "qbittorrent.${SECRET_DOMAIN}"
+            secretName: qbittorrent-tls
     podSecurityContext:
       fsGroup: 65537
     persistence:

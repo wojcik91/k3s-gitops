@@ -30,18 +30,20 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "traefik"
         annotations:
-          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/enable: "true"
           hajimari.io/icon: "home-assistant"
         hosts:
-          - host: "hass.${SECRET_DOMAIN}"
+          - host: "home.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "hass.${SECRET_DOMAIN}"
+              - "home.${SECRET_DOMAIN}"
+            secretName: home-tls
 
     persistence:
       config:
@@ -104,18 +106,20 @@ spec:
           - "/config/.vscode"
         ingress:
           enabled: true
+          ingressClassName: "traefik"
           annotations:
-            kubernetes.io/ingress.class: "nginx"
+            cert-manager.io/cluster-issuer: "letsencrypt-production"
             hajimari.io/enable: "true"
             hajimari.io/icon: "home-assistant"
           hosts:
-            - host: "hass-config.${SECRET_DOMAIN}"
+            - host: "home-config.${SECRET_DOMAIN}"
               paths:
                 - path: /
                   pathType: Prefix
           tls:
             - hosts:
-                - "hass-config.${SECRET_DOMAIN}"
+                - "home-config.${SECRET_DOMAIN}"
+              secretName: home-config-tls
         volumeMounts:
           - name: config
             mountPath: /config

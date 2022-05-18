@@ -69,9 +69,10 @@ spec:
             equal: ["alertname", "namespace"]
       ingress:
         enabled: true
+        ingressClassName: "traefik"
         pathType: Prefix
         annotations:
-          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/enable: "true"
           hajimari.io/icon: "bell"
         hosts:
@@ -79,11 +80,11 @@ spec:
         tls:
           - hosts:
               - "alertmanager.${SECRET_DOMAIN}"
+            secretName: alertmanager-tls
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
               resources:
                 requests:
                   storage: 1Gi
@@ -127,13 +128,15 @@ spec:
     prometheus:
       ingress:
         enabled: true
+        ingressClassName: "traefik"
         annotations:
-          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
           - "prometheus.${SECRET_DOMAIN}"
         tls:
           - hosts:
               - "prometheus.${SECRET_DOMAIN}"
+            secretName: prometheus-tls
       thanosService:
         enabled: true
       prometheusSpec:
@@ -149,7 +152,6 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
               resources:
                 requests:
                   storage: 10Gi

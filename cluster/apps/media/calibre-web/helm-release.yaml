@@ -28,8 +28,9 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "traefik"
         annotations:
-          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/enable: "true"
           hajimari.io/icon: "book-open-variant"
         hosts:
@@ -40,6 +41,7 @@ spec:
         tls:
           - hosts:
               - "calibre.${SECRET_DOMAIN}"
+            secretName: calibre-tls
     podSecurityContext:
       fsGroup: 65537
     persistence:

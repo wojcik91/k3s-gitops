@@ -21,8 +21,9 @@ spec:
       repository: ghcr.io/k8s-at-home/loki
     ingress:
       enabled: true
+      ingressClassName: "traefik"
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
       hosts:
         - host: "loki.${SECRET_DOMAIN}"
           paths:
@@ -30,6 +31,7 @@ spec:
       tls:
         - hosts:
             - "loki.${SECRET_DOMAIN}"
+          secretName: loki-tls
     serviceMonitor:
       enabled: true
     config:

@@ -31,8 +31,9 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "traefik"
         annotations:
-          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/enable: "true"
           hajimari.io/icon: "filmstrip-box-multiple"
         hosts:
@@ -43,6 +44,7 @@ spec:
         tls:
           - hosts:
               - "jellyfin.${SECRET_DOMAIN}"
+            secretName: jellyfin-tls
     persistence:
       config:
         enabled: true

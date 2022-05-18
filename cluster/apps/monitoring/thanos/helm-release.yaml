@@ -29,9 +29,10 @@ spec:
         sidecarsNamespace: monitoring
       ingress:
         enabled: true
+        ingressClassName: "traefik"
         hostname: "thanos.${SECRET_DOMAIN}"
         annotations:
-          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
         tls: true
     existingObjstoreSecret: thanos-objstore
     queryFrontend:
