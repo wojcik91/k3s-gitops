@@ -23,28 +23,67 @@ spec:
     remediation:
       retries: 5
   values:
-    fullnameOverride: prometheus
     alertmanager:
       config:
         global:
           resolve_timeout: 5m
         receivers:
           - name: "null"
+          - name: "pushover"
+            pushover_configs:
+              - token: "${PUSHOVER_ALERTMANAGER_TOKEN}"
+                user_key: "${PUSHOVER_USER_KEY}"
+                send_resolved: true
+                html: true
+                priority: |-
+                  {{ if eq .Status "firing" }}1{{ else }}0{{ end }}
+                url_title: View in Alert Manager
+                title: |-
+                  [{{ .Status | toUpper -}}
+                  {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
+                  ] {{ .CommonLabels.alertname }}
+                message: |-
+                  {{- range .Alerts }}
+                    {{- if ne .Labels.severity "" }}
+                      <b>Severity:</b> <i>{{ .Labels.severity }}</i>
+                    {{- else }}
+                      <b>Severity:</b> <i>N/A</i>
+                    {{- end }}
+                    {{- if ne .Annotations.description "" }}
+                      <b>Description:</b> <i>{{ .Annotations.description }}</i>
+                    {{- else if ne .Annotations.summary "" }}
+                      <b>Summary:</b> <i>{{ .Annotations.summary }}</i>
+                    {{- else if ne .Annotations.message "" }}
+                      <b>Message:</b> <i>{{ .Annotations.message }}</i>
+                    {{- else }}
+                      <b>Description:</b> <i>N/A</i>
+                    {{- end }}
+                    {{- if gt (len .Labels.SortedPairs) 0 }}
+                      <b>Details:</b>
+                      {{- range .Labels.SortedPairs }}
+                        • <b>{{ .Name }}:</b> <i>{{ .Value }}</i>
+                      {{- end }}
+                    {{- end }}
+                  {{- end }}
         route:
           group_by: ["alertname", "job"]
           group_wait: 30s
           group_interval: 5m
           repeat_interval: 6h
-          receiver: "discord"
+          receiver: "pushover"
           routes:
             - receiver: "null"
-              match:
-                alertname: Watchdog
+              matchers:
+                - alertname =~ "InfoInhibitor|Watchdog"
+            - receiver: "pushover"
+              matchers:
+                - severity = "critical"
+              continue: true
         inhibit_rules:
-          - source_match:
-              severity: "critical"
-            target_match:
-              severity: "warning"
+          - source_matchers:
+              - severity = "critical"
+            target_matchers:
+              - severity = "warning"
             equal: ["alertname", "namespace"]
       ingress:
         enabled: true
@@ -55,18 +94,20 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "bell"
         hosts:
-          - "alertmanager.${SECRET_DOMAIN}"
+          - &host "alertmanager.${SECRET_DOMAIN}"
         tls:
           - hosts:
-              - "alertmanager.${SECRET_DOMAIN}"
+              - *host
             secretName: alertmanager-tls
       alertmanagerSpec:
+        replicas: 3
+        podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
             spec:
               resources:
                 requests:
-                  storage: 1Gi
+                  storage: 512Mi
     nodeExporter:
       serviceMonitor:
         relabelings:
@@ -77,12 +118,24 @@ spec:
               - __meta_kubernetes_pod_node_name
             targetLabel: kubernetes_node
     kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-    prometheus-node-exporter:
-      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: kubernetes_node
     grafana:
       enabled: false
       forceDeployDashboards: true
+      sidecar:
+        dashboards:
+          multicluster:
+            etcd:
+              enabled: true
     kubelet:
       enabled: true
       serviceMonitor:
@@ -91,6 +144,36 @@ spec:
             sourceLabels:
               - node
             targetLabel: instance
+    kubeApiServer:
+      enabled: true
+    kubeControllerManager:
+      enabled: true
+      endpoints:
+        - 10.0.60.11
+        - 10.0.60.12
+        - 10.0.60.13
+    kubeScheduler:
+      enabled: true
+      endpoints:
+        - 10.0.60.11
+        - 10.0.60.12
+        - 10.0.60.13
+    kubeProxy:
+      enabled: true
+      endpoints:
+        - 10.0.60.11
+        - 10.0.60.12
+        - 10.0.60.13
+    kubeEtcd:
+      enabled: true
+      endpoints:
+        - 10.0.60.11
+        - 10.0.60.12
+        - 10.0.60.13
+      service:
+        enabled: true
+        port: 2381
+        targetPort: 2381
     prometheus:
       ingress:
         enabled: true
@@ -98,21 +181,24 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
-          - "prometheus.${SECRET_DOMAIN}"
+          - &host "prometheus.${SECRET_DOMAIN}"
         tls:
           - hosts:
-              - "prometheus.${SECRET_DOMAIN}"
+              - *host
             secretName: prometheus-tls
       thanosService:
         enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
-        replicas: 1
+        replicas: 3
         replicaExternalLabelName: "replica"
+        podAntiAffinity: hard
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-        retention: 6h
+        retention: 2d
         enableAdminAPI: true
         walCompression: true
         storageSpec:
@@ -123,10 +209,17 @@ spec:
                   storage: 10Gi
         thanos:
           image: quay.io/thanos/thanos:v0.26.0
-          version: v0.22.0
+          # renovate: datasource=docker depName=quay.io/thanos/thanos
+          version: "v0.26.0"
           objectStorageConfig:
             name: thanos-objstore
             key: objstore.yml
+        resources:
+          requests:
+            cpu: 500m
+            memory: 2000Mi
+          limits:
+            memory: 8000Mi
         additionalScrapeConfigs:
           - job_name: "minio-job"
             honor_timestamps: true
@@ -135,6 +228,8 @@ spec:
               - targets:
                   - "${NAS_ADDR}:9000"
           - job_name: "node-exporter"
+            scrape_interval: 1m
+            scrape_timeout: 10s
             honor_timestamps: true
             static_configs:
               - targets:
