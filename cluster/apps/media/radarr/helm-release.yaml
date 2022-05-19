@@ -23,6 +23,11 @@ spec:
       tag: v4.1.0.6175
     env:
       TZ: "${TIMEZONE}"
+    service:
+      main:
+        ports:
+          http:
+            port: 7878
     ingress:
       main:
         enabled: true
