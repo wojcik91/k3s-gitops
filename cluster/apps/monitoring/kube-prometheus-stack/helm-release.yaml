@@ -94,10 +94,10 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "bell"
         hosts:
-          - &host "alertmanager.${SECRET_DOMAIN}"
+          - &host-alert "alertmanager.${SECRET_DOMAIN}"
         tls:
           - hosts:
-              - *host
+              - *host-alert
             secretName: alertmanager-tls
       alertmanagerSpec:
         replicas: 3
@@ -181,10 +181,10 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
-          - &host "prometheus.${SECRET_DOMAIN}"
+          - &host-prom "prometheus.${SECRET_DOMAIN}"
         tls:
           - hosts:
-              - *host
+              - *host-prom
             secretName: prometheus-tls
       thanosService:
         enabled: true
