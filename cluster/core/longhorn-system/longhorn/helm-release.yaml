@@ -17,6 +17,9 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    csi:
+      kubeletRootDir: /var/lib/kubelet
+
     defaultSettings:
       backupTarget: "nfs://${NAS_ADDR}:/volume2/longhorn-backups/backupstore"
 
@@ -44,3 +47,15 @@ spec:
         cert-manager.io/cluster-issuer: "letsencrypt-production"
         hajimari.io/enable: "true"
         hajimari.io/icon: "cow"
+
+    longhornDriver:
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
+
+    longhornManager:
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
+
+    longhornUI:
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
