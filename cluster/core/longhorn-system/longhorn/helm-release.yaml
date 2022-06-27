@@ -22,6 +22,7 @@ spec:
 
     defaultSettings:
       backupTarget: "nfs://${NAS_ADDR}:/volume2/longhorn-backups/backupstore"
+      systemManagedComponentsNodeSelector: "storage:longhorn"
 
     ingress:
       enabled: true
@@ -50,12 +51,12 @@ spec:
 
     longhornDriver:
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        storage: longhorn
 
     longhornManager:
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        storage: longhorn
 
     longhornUI:
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        storage: longhorn
