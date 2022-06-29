@@ -191,14 +191,15 @@ spec:
       thanosServiceMonitor:
         enabled: true
       prometheusSpec:
-        replicas: 3
-        replicaExternalLabelName: "replica"
+        replicas: 2
+        replicaExternalLabelName: __replica__
         podAntiAffinity: hard
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         retention: 2d
+        retentionSize: "6GB"
         enableAdminAPI: true
         walCompression: true
         storageSpec:
