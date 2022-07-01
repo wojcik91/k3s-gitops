@@ -100,7 +100,7 @@ spec:
               - *host-alert
             secretName: alertmanager-tls
       alertmanagerSpec:
-        replicas: 3
+        replicas: 2
         podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
@@ -220,7 +220,7 @@ spec:
             cpu: 500m
             memory: 2000Mi
           limits:
-            memory: 4000Mi
+            memory: 8000Mi
         additionalScrapeConfigs:
           - job_name: "minio-job"
             honor_timestamps: true
