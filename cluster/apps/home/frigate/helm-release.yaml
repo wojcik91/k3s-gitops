@@ -85,6 +85,7 @@ spec:
               - person
               - dog
               - cat
+              - car
               filters:
                 person:
                   min_area: 1500
@@ -170,6 +171,18 @@ spec:
                     roles:
                     - record
                     - rtmp
+              # --
+              driveway:
+                ffmpeg:
+                  inputs:
+                  - path: rtmp://10.0.40.8/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=${CAM_DRIVEWAY_PASS}
+                    roles:
+                    - detect
+                  - path: rtmp://10.0.40.8/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=${CAM_DRIVEWAY_PASS}
+                    roles:
+                    - record
+                    - rtmp
+
     podAnnotations:
       configmap.reloader.stakater.com/reload: "frigate-config"
     affinity:
