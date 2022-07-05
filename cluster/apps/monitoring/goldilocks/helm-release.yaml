@@ -41,7 +41,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "weather-sunset"
         hosts:
-          - host: &host "goldilocks.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host "goldilocks.${SECRET_DOMAIN}"
             paths:
               - path: /
                 type: Prefix
