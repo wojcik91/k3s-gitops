@@ -12,3 +12,4 @@ resources:
   - uptime-kuma
   - flux-podmonitor
   - goldilocks
+  - vpa
