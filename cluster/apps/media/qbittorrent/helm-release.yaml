@@ -8,7 +8,7 @@ spec:
   dependsOn:
     - name: vpn-gateway
       namespace: vpn-gateway
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
@@ -18,13 +18,20 @@ spec:
         kind: HelmRepository
         name: k8s-at-home-charts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     image:
       repository: ghcr.io/k8s-at-home/qbittorrent
-      tag: v4.4.2
+      tag: v4.4.3.1
     env:
-      TZ: "Europe/Warsaw"
+      TZ: "${TIMEZONE}"
     hostname: torrent
     ingress:
       main:
@@ -35,16 +42,17 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "download"
         hosts:
-          - host: "qbittorrent.${SECRET_DOMAIN}"
+          - host: &host "qbittorrent.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "qbittorrent.${SECRET_DOMAIN}"
+              - *host
             secretName: qbittorrent-tls
     podSecurityContext:
-      fsGroup: 65537
+      supplementalGroups:
+        - 65537
     persistence:
       config:
         enabled: true
@@ -53,28 +61,3 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
-    metrics:
-      enabled: false
-      serviceMonitor:
-        interval: 30s
-        scrapeTimeout: 5s
-      prometheusRule:
-        enabled: true
-        rules:
-          - alert: qBittorrentDown
-            annotations:
-              description: qBittorrent service is down.
-              summary: qBittorrent is down.
-            expr: |
-              qbittorrent_up == 0
-            for: 5m
-            labels:
-              severity: critical
-      exporter:
-        image:
-          repository: esanchezm/prometheus-qbittorrent-exporter
-          tag: v1.2.0
-          pullPolicy: IfNotPresent
-        env:
-          user: "${SECRET_QB_USERNAME}"
-          password: "${SECRET_QB_PASSWORD}"
