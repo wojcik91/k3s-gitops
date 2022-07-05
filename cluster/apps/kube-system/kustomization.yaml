@@ -10,3 +10,4 @@ resources:
   - node-feature-discovery
   - intel-gpu-plugin
   - node-problem-detector
+  - nodelocaldns.yaml
