@@ -2,26 +2,40 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: bazarr
+  name: &app bazarr
   namespace: media
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: bazarr
-      version: 10.5.2
+      chart: kah-common-chart
+      version: 1.1.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
+    global:
+      nameOverride: *app
     image:
-      repository: ghcr.io/k8s-at-home/bazarr
-      tag: v1.1.0
+      repository: lscr.io/linuxserver/bazarr
+      tag: 1.1.0
     env:
-      TZ: "Europe/Warsaw"
+      TZ: "${TIMEZONE}"
+    service:
+      main:
+        ports:
+          http:
+            port: 6767
     ingress:
       main:
         enabled: true
@@ -31,13 +45,13 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "subtitles"
         hosts:
-          - host: "bazarr.${SECRET_DOMAIN}"
+          - host: &host "bazarr.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "bazarr.${SECRET_DOMAIN}"
+              - *host
             secretName: bazarr-tls
     podSecurityContext:
       supplementalGroups:
@@ -61,8 +75,3 @@ spec:
         path: /volume2/Backups/apps/bazarr
         mountPath: /config/Backups
         readOnly: false
-    prometheus:
-      podMonitor:
-        enabled: true
-        interval: 10m
-        scrapeTimeout: 2m
