@@ -40,7 +40,8 @@ spec:
               - "readarr.${SECRET_DOMAIN}"
             secretName: readarr-tls
     podSecurityContext:
-      fsGroup: 65537
+      supplementalGroups:
+        - 65537
     persistence:
       config:
         enabled: true
@@ -53,6 +54,13 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
+      backup:
+        enabled: true
+        type: nfs
+        server: ${NAS_ADDR}
+        path: /volume2/Backups/apps/readarr
+        mountPath: /config/Backups
+        readOnly: false
     prometheus:
       podMonitor:
         enabled: true

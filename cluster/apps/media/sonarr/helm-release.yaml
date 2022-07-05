@@ -73,6 +73,13 @@ spec:
         enabled: true
         existingClaim: nfs-media-downloads-pvc
         mountPath: /downloads
+      backup:
+        enabled: true
+        type: nfs
+        server: ${NAS_ADDR}
+        path: /volume2/Backups/apps/sonarr
+        mountPath: /config/Backups
+        readOnly: false
     resources:
       requests:
         cpu: 10m
