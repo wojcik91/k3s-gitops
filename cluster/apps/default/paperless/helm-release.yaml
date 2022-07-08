@@ -5,7 +5,7 @@ metadata:
   name: paperless
   namespace: default
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
@@ -15,15 +15,23 @@ spec:
         kind: HelmRepository
         name: k8s-at-home-charts
         namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
       tag: 1.7.1
-      pullPolicy: IfNotPresent
     env:
       PAPERLESS_OCR_LANGUAGE: "eng"
-      PAPERLESS_TIME_ZONE: "Europe/Warsaw"
+      PAPERLESS_TIME_ZONE: "${TIMEZONE}"
       PAPERLESS_URL: "https://docs.${SECRET_DOMAIN}"
+      PAPERLESS_REDIS: redis://paperless-redis-headless:6379
     ingress:
       main:
         enabled: true
@@ -33,13 +41,13 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "file-pdf-box"
         hosts:
-          - host: "docs.${SECRET_DOMAIN}"
+          - host: &host "docs.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "docs.${SECRET_DOMAIN}"
+              - *host 
             secretName: docs-tls
     podSecurityContext:
       fsGroup: 65541
@@ -70,3 +78,8 @@ spec:
             path: /volume2/documents/export
     redis:
       enabled: true
+    postgresql:
+      enabled: true
+      postgresqlPassword: ${PAPERLESS_POSTGRES_PASSWORD}
+      persistence:
+        enabled: true
