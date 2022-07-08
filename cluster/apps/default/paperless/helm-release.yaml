@@ -29,6 +29,7 @@ spec:
       tag: 1.7.1
     env:
       PAPERLESS_OCR_LANGUAGE: "pol+eng"
+      PAPERLESS_OCR_LANGUAGES: "pol"
       PAPERLESS_TIME_ZONE: "${TIMEZONE}"
       PAPERLESS_URL: "https://docs.${SECRET_DOMAIN}"
       PAPERLESS_REDIS: redis://paperless-redis-headless:6379
