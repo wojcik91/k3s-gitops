@@ -56,7 +56,7 @@ spec:
       podAntiAffinityPreset: hard
     compactor:
       enabled: true
-      retentionResolutionRaw: 14d
+      retentionResolutionRaw: 7d
       retentionResolution5m: 30d
       retentionResolution1h: 180d
       persistence:

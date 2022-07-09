@@ -153,7 +153,7 @@ spec:
         - 10.0.60.12
         - 10.0.60.13
     kubeScheduler:
-      enabled: true
+      enabled: false
       endpoints:
         - 10.0.60.11
         - 10.0.60.12
