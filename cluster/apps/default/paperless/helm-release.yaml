@@ -33,6 +33,8 @@ spec:
       PAPERLESS_TIME_ZONE: "${TIMEZONE}"
       PAPERLESS_URL: "https://docs.${SECRET_DOMAIN}"
       PAPERLESS_REDIS: redis://paperless-redis-headless:6379
+      USERMAP_UID: 1042
+      USERMAP_GID: 65541
     ingress:
       main:
         enabled: true
