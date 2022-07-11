@@ -31,6 +31,8 @@ spec:
       tag: 1.1.0
     env:
       TZ: "${TIMEZONE}"
+      PUID: 1035
+      PGID: 65537
     service:
       main:
         ports:
