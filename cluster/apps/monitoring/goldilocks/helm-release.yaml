@@ -30,7 +30,7 @@ spec:
           cpu: 35m
           memory: 105M
         limits:
-          cpu: 56m
+          cpu: 116m
           memory: 250M
     dashboard:
       replicaCount: 1
@@ -55,5 +55,5 @@ spec:
           cpu: 15m
           memory: 105M
         limits:
-          cpu: 20m
+          cpu: 56m
           memory: 250M
