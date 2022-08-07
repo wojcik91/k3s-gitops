@@ -5,7 +5,7 @@ metadata:
   name: node-problem-detector
   namespace: kube-system
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       # renovate: registryUrl=https://charts.deliveryhero.io/
@@ -15,7 +15,14 @@ spec:
         kind: HelmRepository
         name: deliveryhero-charts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     image:
       repository: "k8s.gcr.io/node-problem-detector/node-problem-detector"
@@ -25,11 +32,19 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: kubernetes.io/arch
+                - key: kubernetes.io/os
                   operator: In
                   values:
-                    - amd64
+                    - linux
     metrics:
       enabled: true
       serviceMonitor:
         enabled: true
+    resources:
+      limits:
+        cpu: 10m
+        memory: 80Mi
+      requests:
+        cpu: 10m
+        memory: 80Mi
+
