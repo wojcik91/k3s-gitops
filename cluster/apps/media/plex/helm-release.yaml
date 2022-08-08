@@ -1,0 +1,118 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: media
+spec:
+  releaseName: plex
+  interval: 15m
+  chart:
+    spec:
+      chart: plex
+      version: 6.4.3
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  dependsOn:
+    - name: intel-gpu-plugin
+      namespace: kube-system
+    - name: node-feature-discovery
+      namespace: kube-system
+  values:
+    # Values link: https://github.com/k8s-at-home/charts/blob/master/charts/stable/plex/values.yaml
+    image:
+      repository: ghcr.io/k8s-at-home/plex
+      tag: v1.28.0.5999-97678ded3
+    env:
+      TZ: "${TIMEZONE}"
+      ADVERTISE_IP: "https://plex.${SECRET_DOMAIN}:443/,http://${PLEX_IP}:32400/"
+    podSecurityContext:
+      supplementalGroups:
+        - 44
+        - 109
+        - 100
+        - 65537
+    service:
+      main:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${PLEX_IP}
+        externalTrafficPolicy: Local
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          hajimari.io/icon: plex
+          hajimari.io/appName: plex
+
+        hosts:
+          - host: &host "plex.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: plex-tls
+            hosts:
+              - *host
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: plex-config-v1
+
+      transcode:
+        enabled: true
+        type: emptyDir
+
+      tv:
+        enabled: true
+        existingClaim: nfs-media-tv-pvc
+        mountPath: /tv
+      
+      movies:
+        enabled: true
+        existingClaim: nfs-media-movies-pvc
+        mountPath: /movies
+
+      backup:
+        enabled: true
+        type: nfs
+        server: ${NAS_ADDR}
+        path: /volume2/Backups/apps/prowlarr
+        mountPath: /config/backup
+        readOnly: false
+
+
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: feature.node.kubernetes.io/custom-intel-gpu
+                  operator: In
+                  values:
+                    - "true"
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 1000M
+        gpu.intel.com/i915: 1
+      limits:
+        memory: 6000M
+        gpu.intel.com/i915: 1
