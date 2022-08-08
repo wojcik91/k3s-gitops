@@ -38,6 +38,7 @@ spec:
     env:
       TZ: "${TIMEZONE}"
       ADVERTISE_IP: "https://plex.${SECRET_DOMAIN}:443/,http://${PLEX_IP}:32400/"
+      PLEX_CLAIM: "${PLEX_CLAIM_TOKEN}"
     podSecurityContext:
       supplementalGroups:
         - 44
