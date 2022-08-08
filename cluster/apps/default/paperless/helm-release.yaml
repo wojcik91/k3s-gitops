@@ -32,7 +32,7 @@ spec:
       PAPERLESS_OCR_LANGUAGES: "pol"
       PAPERLESS_TIME_ZONE: "${TIMEZONE}"
       PAPERLESS_URL: "https://docs.${SECRET_DOMAIN}"
-      PAPERLESS_REDIS: redis://paperless-redis-headless:6379
+      PAPERLESS_REDIS: redis://paperless-redis-master:6379
       USERMAP_UID: 1042
       USERMAP_GID: 65541
     ingress:
@@ -50,7 +50,7 @@ spec:
                 pathType: Prefix
         tls:
           - hosts:
-              - *host 
+              - *host
             secretName: docs-tls
     podSecurityContext:
       fsGroup: 65541
