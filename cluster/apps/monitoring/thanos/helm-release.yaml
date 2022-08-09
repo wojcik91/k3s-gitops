@@ -5,7 +5,7 @@ metadata:
   name: thanos
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
   install:
     createNamespace: true
     remediation:
@@ -57,18 +57,18 @@ spec:
     compactor:
       enabled: true
       retentionResolutionRaw: 7d
-      retentionResolution5m: 30d
-      retentionResolution1h: 180d
+      retentionResolution5m: 14d
+      retentionResolution1h: 30d
       persistence:
         enabled: true
-        size: 15Gi
+        size: 50Gi
     storegateway:
       enabled: true
       replicaCount: 3
       podAntiAffinityPreset: hard
       persistence:
         enabled: true
-        size: 1Gi
+        size: 2Gi
     ruler:
       enabled: true
       replicaCount: 3
