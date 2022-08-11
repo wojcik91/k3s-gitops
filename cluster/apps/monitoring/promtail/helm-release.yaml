@@ -23,7 +23,8 @@ spec:
       retries: 5
   values:
     image:
-      repository: ghcr.io/k8s-at-home/promtail
+      registry: ghcr.io
+      repository: k8s-at-home/promtail
       tag: 2.6.1
     config:
       clients:
