@@ -13,3 +13,4 @@ resources:
   - flux-podmonitor
   - goldilocks
   - vpa
+  - promtail
