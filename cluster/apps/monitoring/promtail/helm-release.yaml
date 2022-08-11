@@ -75,7 +75,7 @@ spec:
         service:
           type: LoadBalancer
           loadBalancerIP: "${METALLB_PROMTAIL_SYSLOG_IP}"
-          port: 31514
+          port: 1514
           externalTrafficPolicy: Local
     resources:
       limits:
