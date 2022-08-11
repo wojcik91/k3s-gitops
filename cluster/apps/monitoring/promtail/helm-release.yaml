@@ -29,35 +29,36 @@ spec:
     config:
       clients:
         - url: http://loki.monitoring:3100/loki/api/v1/push
-      extraScrapeConfigs: |
-        - job_name: syslog
-          syslog:
-            listen_address: 0.0.0.0:1514
-            listen_protocol: tcp
-            labels:
-              job: "syslog"
-          relabel_configs:
-            - source_labels: ['__syslog_message_hostname']
-              target_label: 'hostname'
-            # example label values: kernel, CRON, kubelet
-            - source_labels:
-                - __syslog_message_app_name
-              target_label: app
-            # example label values: debug, notice, informational, warning, error
-            - source_labels:
-                - __syslog_message_severity
-              target_label: level
-        - job_name: journal
-          journal:
-            path: /var/log/journal
-            max_age: 12h
-            labels:
-              job: systemd-journal
-          relabel_configs:
-            - source_labels: ['__journal__systemd_unit']
-              target_label: 'unit'
-            - source_labels: ['__journal__hostname']
-              target_label: 'hostname'
+      snippets:
+        extraScrapeConfigs: |
+          - job_name: syslog
+            syslog:
+              listen_address: 0.0.0.0:1514
+              listen_protocol: tcp
+              labels:
+                job: "syslog"
+            relabel_configs:
+              - source_labels: ['__syslog_message_hostname']
+                target_label: 'hostname'
+              # example label values: kernel, CRON, kubelet
+              - source_labels:
+                  - __syslog_message_app_name
+                target_label: app
+              # example label values: debug, notice, informational, warning, error
+              - source_labels:
+                  - __syslog_message_severity
+                target_label: level
+          - job_name: journal
+            journal:
+              path: /var/log/journal
+              max_age: 12h
+              labels:
+                job: systemd-journal
+            relabel_configs:
+              - source_labels: ['__journal__systemd_unit']
+                target_label: 'unit'
+              - source_labels: ['__journal__hostname']
+                target_label: 'hostname'
     extraVolumes:
       - name: journal
         hostPath:
