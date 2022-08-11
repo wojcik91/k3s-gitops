@@ -11,6 +11,5 @@ resources:
   - bazarr
   - calibre
   - calibre-web
-  - jellyfin
+  # - jellyfin
   - plex
-
