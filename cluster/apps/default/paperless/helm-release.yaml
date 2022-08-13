@@ -50,7 +50,7 @@ spec:
                 pathType: Prefix
         tls:
           - hosts:
-              - *host 
+              - *host
             secretName: docs-tls
     podSecurityContext:
       fsGroup: 65541

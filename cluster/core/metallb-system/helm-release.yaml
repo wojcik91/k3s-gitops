@@ -23,4 +23,3 @@ spec:
       prometheusRule:
         # enable alertmanager alerts
         enabled: true
-
