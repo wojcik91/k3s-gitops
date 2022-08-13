@@ -32,20 +32,22 @@ spec:
         - url: http://loki.monitoring:3100/loki/api/v1/push
       snippets:
         extraScrapeConfigs: |
+          # Add an additional scrape config for syslog
           - job_name: syslog
             syslog:
-              listen_address: 0.0.0.0:1514
-              listen_protocol: tcp
-              idle_timeout: 60m
+              listen_address: 0.0.0.0:{{ .Values.extraPorts.syslog.containerPort }}
               labels:
-                job: "syslog"
+                job: syslog
             relabel_configs:
-              - source_labels: ['__syslog_message_hostname']
-                target_label: 'hostname'
+              - source_labels:
+                  - __syslog_message_hostname
+                target_label: hostname
+
               # example label values: kernel, CRON, kubelet
               - source_labels:
                   - __syslog_message_app_name
                 target_label: app
+
               # example label values: debug, notice, informational, warning, error
               - source_labels:
                   - __syslog_message_severity
@@ -57,33 +59,52 @@ spec:
               labels:
                 job: systemd-journal
             relabel_configs:
-              - source_labels: ['__journal__systemd_unit']
-                target_label: 'unit'
-              - source_labels: ['__journal__hostname']
-                target_label: 'hostname'
+              - source_labels:
+                  - __journal__hostname
+                target_label: hostname
+
+              # example label values: kubelet.service, containerd.service
+              - source_labels:
+                  - __journal__systemd_unit
+                target_label: unit
+
+              # example label values: debug, notice, info, warning, error
+              - source_labels:
+                  - __journal_priority_keyword
+                target_label: level
     extraVolumes:
       - name: journal
         hostPath:
           path: /var/log/journal
+      - name: machine-id
+        hostPath:
+          path: /etc/machine-id
 
     extraVolumeMounts:
       - name: journal
         mountPath: /var/log/journal
         readOnly: true
+      - name: machine-id
+        mountPath: /etc/machine-id
+        readOnly: true
+
     extraPorts:
       syslog:
         name: tcp-syslog
         containerPort: 1514
-        protocol: TCP
         service:
           type: LoadBalancer
           loadBalancerIP: "${METALLB_PROMTAIL_SYSLOG_IP}"
-          port: 1514
+          port: 80
           externalTrafficPolicy: Local
+
+    serviceMonitor:
+      enabled: true
+
     resources:
-      limits:
-        cpu: 200m
-        memory: 128Mi
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 203m
+        memory: 127M
+      limits:
+        cpu: 1272m
+        memory: 654M
