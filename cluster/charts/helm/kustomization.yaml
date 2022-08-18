@@ -21,3 +21,4 @@ resources:
   - authentik-charts.yaml
   - external-dns-charts.yaml
   - fairwinds-charts.yaml
+  - node-feature-discovery-charts.yaml
