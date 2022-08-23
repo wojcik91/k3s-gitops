@@ -87,7 +87,6 @@ spec:
               - person
               - dog
               - cat
-              - car
               - bicycle
               filters:
                 person:
@@ -101,8 +100,6 @@ spec:
                 cat:
                   min_area: 1000
                   max_area: 10000
-                  threshold: 0.7
-                car:
                   threshold: 0.7
                 bicycle:
                   threshold: 0.7
