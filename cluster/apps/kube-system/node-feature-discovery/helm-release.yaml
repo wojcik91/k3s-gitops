@@ -30,7 +30,7 @@ spec:
           operator: Exists
     worker:
       # node-feature-discovery configuration - see https://github.com/kubernetes-sigs/node-feature-discovery/blob/master/nfd-worker.conf.example for example
-      config: |
+      config: ### <NFD-WORKER-CONF-START-DO-NOT-REMOVE>
         sources:
           usb:
             deviceClassWhitelist:
@@ -58,6 +58,8 @@ spec:
               matchOn:
               - usbId:
                   vendor: ["1a6e", "18d1"]
+
+  ### <NFD-WORKER-CONF-END-DO-NOT-REMOVE>
       tolerations:
         - key: arm
           operator: Exists
