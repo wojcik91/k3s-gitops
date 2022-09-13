@@ -24,3 +24,4 @@ resources:
   - fairwinds-charts.yaml
   - node-feature-discovery-charts.yaml
   - weaveworks-charts.yaml
+  - bjw-s-charts.yaml
